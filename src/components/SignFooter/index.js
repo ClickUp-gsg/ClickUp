@@ -4,9 +4,18 @@ import * as T from "../Typography";
 export default function SignFooter({ type }) {
   return (
     <footer>
-      {type === "SignUp" ? (
+      {type !== "SignUp" ? (
+        <T.P
+          margin="45px 0 0"
+          align="center"
+          color="white"
+          size="11px"
+          weight="700"
+        >
+          LET'S MAKE THE WORLD MORE PRODUCTIVE, TOGETHER.
+        </T.P>
+      ) : (
         <>
-          {/* <T.Flex width="400px"> */}
           <T.Flex margin="30px auto 0" width="400px">
             <S.FooterImg
               src="https://app-cdn.clickup.com/assets/images/onboarding/company-logos/google.svg"
@@ -40,15 +49,6 @@ export default function SignFooter({ type }) {
             See why 100,000+ teams are more productive with ClickUp
           </T.P>
         </>
-      ) : (
-        <T.P
-          margin="45px 0 0 0"
-          color="white"
-          size="11px"
-          weight="700"
-        >
-          LET'S MAKE THE WORLD MORE PRODUCTIVE, TOGETHER.
-        </T.P>
       )}
     </footer>
   );
