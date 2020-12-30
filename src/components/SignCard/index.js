@@ -19,7 +19,6 @@ async function signWithGoogle() {
 
 export default function SignCard({ type = "SignIn" }) {
   const themeContext = useContext(ThemeContext);
-
   return (
     <S.Container>
       <T.H1 margin="0 0 20px 0" align="center">
