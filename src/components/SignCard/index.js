@@ -1,17 +1,17 @@
 import * as S from "./style";
 import * as T from "../Typography";
 
+import { auth, provider } from "../../firebase";
+
 import SignForm from "../SignForm";
 import { ThemeContext } from "styled-components";
 import { helpIcon } from "../icons";
 import { useContext } from "react";
 
-// import { auth, provider } from "../../firebase";
-
 async function signWithGoogle() {
   try {
-    // const res = await auth.signInWithPopup(provider);
-    // console.log("res");
+    const res = await auth.signInWithPopup(provider);
+    console.log(res);
   } catch (e) {
     console.log(e);
   }
