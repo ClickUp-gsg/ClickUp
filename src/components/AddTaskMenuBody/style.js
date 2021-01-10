@@ -1,0 +1,66 @@
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+export const AddSvgContainer = styled.div`
+  height: 15px;
+  width: 15px;
+  background-color: #eee;
+  margin-right: 5px;
+  padding: 3px;
+  border-radius: 2px;
+  & * {
+    fill: #858585;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const AddContainer = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover *:not(div) {
+    fill: white;
+    stroke: red;
+    color: ${(props) => props.theme.primary};
+  }
+  &:hover div {
+    background-color: ${(props) => props.theme.primary};
+  }
+`;
+
+export const DropDownContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid ${(props) => props.theme.primary};
+  border-radius: 3px;
+  height: 22px;
+  padding: 1px 7px 1px 8px;
+  margin: 0 0 0 10px;
+  cursor: pointer;
+  & * {
+    fill: ${(props) => props.theme.primary};
+    color: ${(props) => props.theme.primary};
+  }
+  &:hover {
+    background-color: ${(props) => props.theme.primary};
+  }
+  &:hover * {
+    color: white;
+    fill: white;
+  }
+`;
+
+export const BrowseLink = styled(Link)`
+  border-bottom: 1px dashed;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  color: ${(props) => props.theme.primary};
+  &:hover {
+    color: ${(props) => props.theme.primaryDark};
+  }
+`;
