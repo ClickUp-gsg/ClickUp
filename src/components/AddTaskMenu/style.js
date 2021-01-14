@@ -2,16 +2,23 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   position: fixed;
-  opacity: ${(props) => props.isOpened || 0};
   right: 10px;
   bottom: 63px;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
   height: 100%;
   width: 100%;
   max-height: 510px;
   max-width: 580px;
+`;
+
+export const Menu = styled.div`
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
   background-color: white;
-  will-change: transition, opacity;
+  transition: 0.6s;
+  will-change: opacity;
+  transform: ${(props) => props.isOpened || "translateX(102%)"};
+  opacity: ${(props) => props.isOpened || 0};
 `;
 
 export const Header = styled.header`
@@ -32,4 +39,10 @@ export const ChangeStatus = styled.span`
 
 export const Body = styled.div`
   padding: 0px 40px 0 20px;
+`;
+
+export const AddTaskButton = styled.div`
+  position: absolute;
+  right: 47px;
+  bottom: -40px;
 `;
