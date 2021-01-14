@@ -1,6 +1,6 @@
 import * as T from "../Typography";
 
-import { emailIcon, passwordIcon, userIcon } from "../icons";
+import { emailIcon, passwordIcon, userIcon } from "../../assets";
 
 import Input from "../SignTxtField";
 import { auth } from "../../firebase";

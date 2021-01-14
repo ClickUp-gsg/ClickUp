@@ -5,7 +5,7 @@ import { auth, provider } from "../../firebase";
 
 import SignForm from "../SignForm";
 import { ThemeContext } from "styled-components";
-import { helpIcon } from "../icons";
+import { helpIcon } from "../../assets";
 import { useContext } from "react";
 
 async function signWithGoogle() {
