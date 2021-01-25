@@ -191,3 +191,15 @@ export const SvgContainer = styled.div`
       props.fill && (props.hover_color || props.theme.primary)};
   }
 `;
+
+const CloseButton = styled.button`
+  all: unset;
+`;
+
+export const CloseBtn = ({ handleClick, ...props }) => {
+  return (
+    <CloseButton type="button" onClick={handleClick}>
+      <SvgContainer {...props}>{closeSvg}</SvgContainer>
+    </CloseButton>
+  );
+};
