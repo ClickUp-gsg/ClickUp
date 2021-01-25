@@ -204,3 +204,19 @@ export const CloseBtn = ({ handleClick, ...props }) => {
     </CloseButton>
   );
 };
+
+export const Input = styled.input`
+  cursor: ${(props) => props.cursor};
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
+  font-weight: ${(props) => props.weight || "700"};
+  margin: ${(props) => props.margin};
+  font-size: ${(props) => props.size};
+  border: ${(props) => props.border};
+  border-radius: ${(props) => props.radius};
+  padding: ${(props) => props.padding};
+  color: ${(props) => props.color};
+  &:hover {
+    background-color: ${(props) => props.hover_background};
+  }
+`;
