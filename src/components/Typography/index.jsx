@@ -1,4 +1,5 @@
 import { Link as LinkReactRouter } from "react-router-dom";
+import { closeSvg } from "../../assets";
 import styled from "styled-components";
 
 const fontSize = ".875em";
