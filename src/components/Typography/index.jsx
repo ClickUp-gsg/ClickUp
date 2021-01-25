@@ -174,3 +174,20 @@ export const ToolTip = ({ text, children, ...props }) => {
     </ToolTipContainer>
   );
 };
+
+export const SvgContainer = styled.div`
+  cursor: pointer;
+  transform: ${(props) => props.rotate && `rotate(${props.rotate})`};
+  width: ${(props) => props.width || "10px"};
+  margin: ${(props) => props.margin};
+  & * {
+    stroke: ${(props) => props.color || "#b9bec7"};
+    stroke: ${(props) => props.active && props.theme.primary};
+    fill: ${(props) => props.fill && (props.color || "#b9bec7")};
+  }
+  &:hover * {
+    stroke: ${(props) => props.hover_color || props.theme.primary};
+    fill: ${(props) =>
+      props.fill && (props.hover_color || props.theme.primary)};
+  }
+`;
