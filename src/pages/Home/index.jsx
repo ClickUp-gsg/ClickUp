@@ -1,7 +1,12 @@
+import * as S from "./style";
+
+import AddTaskMenu from "../../components/AddTaskMenu";
+
 export default function Home() {
   return (
-    <div>
+    <S.Container>
       <h1>this is home page</h1>
-    </div>
+      <AddTaskMenu />
+    </S.Container>
   );
 }

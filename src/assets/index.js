@@ -57,7 +57,6 @@ export const flag = (
   </svg>
 );
 
-// calenderWidthCircle
 export const calenderIcon = (
   <svg
     height="36"
@@ -220,6 +219,7 @@ export const userIcon = (
     ></path>
   </svg>
 );
+
 export const user = (
   <svg
     xmlnsXlink="http://www.w3.org/1999/xlink"
