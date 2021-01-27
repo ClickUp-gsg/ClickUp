@@ -67,11 +67,7 @@ export default function SignTxtField({
         </T.Span>
       </S.Input>
       {hasError && (
-        <T.Flex
-          position="absolute"
-          justify="flex-start"
-          margin=" 3px 0 0 0"
-        >
+        <T.Flex justify="flex-start" margin=" 3px 0 0 0">
           <T.Span
             display="inline-block"
             margin="0 5px 0 0"
