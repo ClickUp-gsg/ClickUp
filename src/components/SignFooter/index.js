@@ -3,7 +3,7 @@ import * as T from "../Typography";
 
 export default function SignFooter({ type }) {
   return (
-    <footer>
+    <S.Container>
       {type !== "SignUp" ? (
         <T.P
           margin="45px 0 0"
@@ -16,7 +16,7 @@ export default function SignFooter({ type }) {
         </T.P>
       ) : (
         <>
-          <T.Flex margin="30px auto 0" width="400px">
+          <T.Flex margin="12px auto 0" width="400px">
             <S.FooterImg
               src="https://app-cdn.clickup.com/assets/images/onboarding/company-logos/google.svg"
               alt=""
@@ -29,6 +29,7 @@ export default function SignFooter({ type }) {
               src="https://app-cdn.clickup.com/assets/images/onboarding/company-logos/nike.svg"
               alt=""
             />
+            <hr />
             <S.FooterImg
               src="https://app-cdn.clickup.com/assets/images/onboarding/company-logos/netflix.svg"
               alt=""
@@ -44,12 +45,12 @@ export default function SignFooter({ type }) {
             weight="700"
             size="12px"
             align="center"
-            padding="15px 0"
+            padding="12px 0 0"
           >
             See why 100,000+ teams are more productive with ClickUp
           </T.P>
         </>
       )}
-    </footer>
+    </S.Container>
   );
 }
