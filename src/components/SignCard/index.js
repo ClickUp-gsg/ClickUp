@@ -7,24 +7,38 @@ import SignForm from "../SignForm";
 import { ThemeContext } from "styled-components";
 import { helpIcon } from "../icons";
 import { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { useStateValue } from "../StateProvider";
 
-async function signWithGoogle() {
-  try {
-    const res = await auth.signInWithPopup(provider);
-    console.log(res);
-  } catch (e) {
-    console.log(e);
+export default function SignCard({ type = "SignIn", setIsLoading }) {
+  const [, dispatch] = useStateValue();
+  const history = useHistory();
+  async function signWithGoogle() {
+    try {
+      setIsLoading(true);
+      const res = await auth.signInWithPopup(provider);
+      const userProfile = res.additionalUserInfo.profile;
+      dispatch("EDIT_USER", {
+        name: userProfile.given_name,
+        profile: userProfile,
+      });
+      console.log("is new user?", res.additionalUserInfo.isNewUser);
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
+      console.log(res);
+    } catch (e) {
+      setIsLoading(false);
+      console.log(e);
+    }
   }
-}
-
-export default function SignCard({ type = "SignIn" }) {
   const themeContext = useContext(ThemeContext);
   return (
     <S.Container>
       <T.H1 margin="0 0 20px 0" align="center">
         {type === "SignUp" ? "Let's go!" : "Welcome back!"}
       </T.H1>
-      <SignForm type={type} />
+      <SignForm setIsLoading={setIsLoading} type={type} />
       <T.Link
         size="11px"
         display="block"
@@ -38,7 +52,7 @@ export default function SignCard({ type = "SignIn" }) {
       >
         or {type === "SignUp" ? "signup" : "login"} with&nbsp;
         <T.Span weight="700" color="inherit">
-          SSO
+          Google
         </T.Span>
       </T.Link>
       {type === "SignUp" && (
