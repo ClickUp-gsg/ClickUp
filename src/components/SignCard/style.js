@@ -8,8 +8,11 @@ export const Container = styled.div`
   box-shadow: 0 25px 75px rgba(16, 30, 54, 0.25);
   border-radius: 6px;
   padding: 30px 60px 0px;
-  margin: -16px auto 0;
+  margin: 0 auto;
   position: relative;
+  @media only screen and (max-width: 535px) {
+    padding: 23px 25px 0;
+  }
 `;
 
 export const Terms = styled.div`
@@ -23,7 +26,11 @@ export const Terms = styled.div`
   min-height: 29px;
   width: calc(100% + 120px);
   vertical-align: center;
-  padding: 8px 0;
+  padding: 8px;
+  @media only screen and (max-width: 535px) {
+    width: calc(100% + 50px);
+    left: -25px;
+  }
 `;
 
 export const HelpBox = styled(Link)`

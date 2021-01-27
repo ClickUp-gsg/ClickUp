@@ -1,4 +1,5 @@
 import { Link as LinkReactRouter } from "react-router-dom";
+import { closeSvg } from "../../assets";
 import styled from "styled-components";
 
 const fontSize = ".875em";
@@ -121,6 +122,105 @@ export const Content = styled.div`
   width: ${(props) => props.width};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
+  @media only screen and (max-width: 450px) {
+    padding: 0 15px;
+  }
+`;
+
+const ToolTipText = styled.span`
+  display: none;
+  opacity: 0;
+  width: max-content;
+  padding: 7px 10px;
+  background-color: rgb(60, 60, 60);
+  color: white;
+  text-align: center;
+  font-size: ${(props) => props.size || "12px"};
+  font-weight: 600;
+  border-radius: 6px;
+  position: absolute;
+  bottom: ${(props) => props.bottom || "35px"};
+  z-index: 1;
+  transition: opacity 0.4s;
+  &::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 5px);
+    top: 28px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgb(50, 50, 50);
+    clear: both;
+  }
+`;
+
+const ToolTipContainer = styled.div`
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  height: max-content;
+  &:hover ${ToolTipText} {
+    display: inline;
+    opacity: 1;
+  }
+`;
+
+export const ToolTip = ({ text, children, ...props }) => {
+  return (
+    <ToolTipContainer>
+      <ToolTipText {...props}>{text}</ToolTipText>
+      {children}
+    </ToolTipContainer>
+  );
+};
+
+export const SvgContainer = styled.div`
+  cursor: pointer;
+  transform: ${(props) => props.rotate && `rotate(${props.rotate})`};
+  width: ${(props) => props.width || "10px"};
+  margin: ${(props) => props.margin};
+  & * {
+    stroke: ${(props) => props.color || "#b9bec7"};
+    stroke: ${(props) => props.active && props.theme.primary};
+    fill: ${(props) => props.fill && (props.color || "#b9bec7")};
+  }
+  &:hover * {
+    stroke: ${(props) => props.hover_color || props.theme.primary};
+    fill: ${(props) =>
+      props.fill && (props.hover_color || props.theme.primary)};
+  }
+`;
+
+const CloseButton = styled.button`
+  all: unset;
+`;
+
+export const CloseBtn = ({ handleClick, ...props }) => {
+  return (
+    <CloseButton type="button" onClick={handleClick}>
+      <SvgContainer {...props}>{closeSvg}</SvgContainer>
+    </CloseButton>
+  );
+};
+
+export const Input = styled.input`
+  cursor: ${(props) => props.cursor};
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
+  font-weight: ${(props) => props.weight || "700"};
+  margin: ${(props) => props.margin};
+  font-size: ${(props) => props.size};
+  border: ${(props) => props.border};
+  border-radius: ${(props) => props.radius};
+  padding: ${(props) => props.padding};
+  color: ${(props) => props.color};
+  &:hover {
+    background-color: ${(props) => props.hover_background};
+  }
 `;
 
 const ToolTipText = styled.span`

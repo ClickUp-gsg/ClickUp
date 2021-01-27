@@ -3,6 +3,7 @@ import * as T from "../Typography";
 
 import { ThemeContext } from "styled-components";
 import { useContext } from "react";
+import { useState } from "react";
 
 export default function SignTxtField({
   type,
@@ -12,13 +13,29 @@ export default function SignTxtField({
   icon,
   hasError,
   errorTxt,
-  linkTxt,
+  linkTxt: initLinkTxt,
   value,
   handleChange,
+  deleteError,
 }) {
   const themeContext = useContext(ThemeContext);
+  const [passwordFieldType, setPasswordFieldType] = useState(
+    "password"
+  );
+  const [linkTxt, setLinkTxt] = useState(initLinkTxt);
+  function toggleVisibility(e) {
+    if (type === "password") {
+      if (passwordFieldType === "password") {
+        setPasswordFieldType("text");
+        setLinkTxt("Hide");
+      } else {
+        setPasswordFieldType("password");
+        setLinkTxt(initLinkTxt);
+      }
+    }
+  }
   return (
-    <S.Container>
+    <S.Container htmlFor={name} onBlur={deleteError}>
       <T.P
         size="11px"
         weight="700"
@@ -32,8 +49,9 @@ export default function SignTxtField({
         <S.TxtField
           value={value}
           onChange={handleChange}
-          type={type}
+          type={type !== "password" ? type : passwordFieldType}
           name={name}
+          id={name}
           placeholder={placeholder}
         />
         <T.Span align="center">
@@ -42,17 +60,14 @@ export default function SignTxtField({
             size=".8em"
             color={themeContext.primary}
             hover_decoration={themeContext.primary}
+            onClick={(e) => toggleVisibility(e)}
           >
             {linkTxt}
           </T.Link>
         </T.Span>
       </S.Input>
       {hasError && (
-        <T.Flex
-          position="absolute"
-          justify="flex-start"
-          margin=" 3px 0 0 0"
-        >
+        <T.Flex justify="flex-start" margin=" 3px 0 0 0">
           <T.Span
             display="inline-block"
             margin="0 5px 0 0"

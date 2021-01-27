@@ -3,7 +3,7 @@ import * as T from "../Typography";
 export default function SignHeader({ type }) {
   return (
     <header>
-      <T.Flex height="100px">
+      <T.Flex height="72px">
         <div>
           <T.Logo />
         </div>
