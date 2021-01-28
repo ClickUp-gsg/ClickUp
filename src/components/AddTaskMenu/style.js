@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.form`
   position: fixed;
   right: 10px;
   bottom: 63px;
@@ -8,14 +8,18 @@ export const Container = styled.div`
   width: 100%;
   max-height: 510px;
   max-width: 580px;
+  transition: 0.2s width, 0.4s height;
+  width: ${(props) => props.isOpened || "100px"};
+  height: ${(props) => props.isOpened || "100px"};
 `;
 
 export const Menu = styled.div`
+  padding-bottom: 20px;
   height: 100%;
   width: 100%;
   box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
   background-color: white;
-  transition: 0.6s;
+  transition: 0.25s;
   will-change: opacity;
   transform: ${(props) => props.isOpened || "translateX(102%)"};
   opacity: ${(props) => props.isOpened || 0};
@@ -41,7 +45,7 @@ export const Body = styled.div`
   padding: 0px 40px 0 20px;
 `;
 
-export const AddTaskButton = styled.div`
+export const ToggleMenuButton = styled.div`
   position: absolute;
   right: 47px;
   bottom: -40px;

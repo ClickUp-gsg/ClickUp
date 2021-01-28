@@ -5,15 +5,30 @@ import * as T from "../Typography";
 import Body from "../AddTaskMenuBody";
 import Footer from "../AddTaskMenuFooter";
 import { useState } from "react";
+import { useStateValue } from "../StateProvider";
 
 export default function AddTaskMenu() {
-  const [opened, setOpened] = useState(true);
+  const [opened, setIsOpened] = useState(true);
+  const [title, setTitle] = useState("");
+  const [list, setList] = useState("");
+  const [desc, setDescription] = useState("");
+  const [, dispatch] = useStateValue();
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(e.target);
+    if (title && list && desc) {
+      const task = { title, desc, list: "list1" };
+      dispatch({ type: "ADD_TASK", payload: task });
+    }
+    console.log(title, list, desc);
+  }
   return (
-    <S.Container>
+    <S.Container onSubmit={(e) => handleSubmit(e)} isOpened={opened}>
       {/* Open Task Button */}
-      <S.AddTaskButton>
+      <S.ToggleMenuButton>
         <T.Button
-          onClick={() => setOpened(true)}
+          onClick={() => setIsOpened(true)}
+          type="button"
           shadow="0 3px 10px -3px #7B68EE"
           radius="10px"
           padding="4px 13px"
@@ -34,13 +49,15 @@ export default function AddTaskMenu() {
             </T.Span>
           </T.Flex>
         </T.Button>
-      </S.AddTaskButton>
+      </S.ToggleMenuButton>
       <S.Menu isOpened={opened}>
         <S.Header>
           <T.ToolTip bottom="25px" text="Change status">
             <S.ChangeStatus />
           </T.ToolTip>
           <T.Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             type="text"
             width="90%"
             height="20px"
@@ -54,21 +71,22 @@ export default function AddTaskMenu() {
             </T.SvgContainer>
           </T.ToolTip>
           <T.CloseBtn
-            handleClick={() => setOpened(false)}
+            handleClick={() => setIsOpened(false)}
             fill="true"
             margin="0 0 0 15px"
             width="14px"
             color="rgb(52,52,52)"
           />
         </S.Header>
-        <main>
-          <S.Body>
-            <Body />
-          </S.Body>
-        </main>
-        <footer>
-          <Footer />
-        </footer>
+        <S.Body>
+          <Body
+            list={list}
+            setList={setList}
+            desc={desc}
+            setDesc={setDescription}
+          />
+        </S.Body>
+        <Footer />
       </S.Menu>
     </S.Container>
   );
