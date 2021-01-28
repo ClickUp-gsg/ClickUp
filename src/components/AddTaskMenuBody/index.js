@@ -2,18 +2,25 @@ import * as A from "../../assets";
 import * as S from "./style";
 import * as T from "../Typography";
 
-export default function AddTaskMenuBody() {
+export default function AddTaskMenuBody({
+  list,
+  setList,
+  desc,
+  setDesc,
+}) {
   return (
-    <div>
+    <main>
       {/* For the first row of the body */}
       <T.Flex>
-        {/* For specify the list (the left side of first row in the body) */}
+        {/* For the left side of first row in the body */}
         <T.Flex>
           <T.P cursor="default" color="rgba(34,34,34,.6)">
             In
           </T.P>
           <T.ToolTip bottom="50px" text="Choose location">
             <T.Input
+              value={list}
+              onChange={(e) => setList(e.target.value)}
               cursor="pointer"
               type="text"
               width="190px"
@@ -42,6 +49,8 @@ export default function AddTaskMenuBody() {
       </T.Flex>
       {/* For text field of description */}
       <T.Input
+        value={desc}
+        onChange={(e) => setDesc(e.target.value)}
         placeholder="Description or type '/' for commands"
         width="100%"
         height="100px"
@@ -92,6 +101,6 @@ export default function AddTaskMenuBody() {
         </T.P>{" "}
         <S.BrowseLink to="#">Browse</S.BrowseLink>
       </T.Flex>
-    </div>
+    </main>
   );
 }
