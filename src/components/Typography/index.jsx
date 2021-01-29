@@ -1,4 +1,5 @@
 import { Link as LinkReactRouter } from "react-router-dom";
+import { closeSvg } from "../../assets";
 import styled from "styled-components";
 
 const fontSize = ".875em";
@@ -121,17 +122,20 @@ export const Content = styled.div`
   width: ${(props) => props.width};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
+  @media only screen and (max-width: 450px) {
+    padding: 0 15px;
+  }
 `;
 
-const ToolTipText = styled.span`
+const ToolTipSpan = styled.span`
   display: none;
   opacity: 0;
   width: max-content;
   padding: 7px 10px;
-  background-color: rgb(40, 40, 40);
+  background-color: rgb(60, 60, 60);
   color: white;
   text-align: center;
-  font-size: 12px;
+  font-size: ${(props) => props.size || "12px"};
   font-weight: 600;
   border-radius: 6px;
   position: absolute;
@@ -159,7 +163,7 @@ const ToolTipContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: max-content;
-  &:hover ${ToolTipText} {
+  &:hover ${ToolTipSpan} {
     display: inline;
     opacity: 1;
   }
@@ -168,7 +172,7 @@ const ToolTipContainer = styled.div`
 export const ToolTip = ({ text, children, ...props }) => {
   return (
     <ToolTipContainer>
-      <ToolTipText {...props}>{text}</ToolTipText>
+      <ToolTipSpan {...props}>{text}</ToolTipSpan>
       {children}
     </ToolTipContainer>
   );
@@ -176,7 +180,7 @@ export const ToolTip = ({ text, children, ...props }) => {
 
 export const SvgContainer = styled.div`
   cursor: pointer;
-  transform: ${(props) => props.rotate && "rotate(180deg)"};
+  transform: ${(props) => props.rotate && `rotate(${props.rotate})`};
   width: ${(props) => props.width || "10px"};
   margin: ${(props) => props.margin};
   & * {
@@ -191,24 +195,13 @@ export const SvgContainer = styled.div`
   }
 `;
 
-const closeSvg = (
-  <svg
-    viewBox="0 0 512 512"
-    id="svg-sprite-cu2-close"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M502.43 55.57l-446.9 446.9a31.97 31.97 0 01-45.25 0 31.97 31.97 0 010-45.26l446.9-446.9a31.97 31.97 0 0145.25 0 31.97 31.97 0 010 45.26z"></path>
-    <path d="M457.17 502.47L10.28 55.57a31.97 31.97 0 010-45.25 31.97 31.97 0 0145.25 0l446.9 446.89a31.97 31.97 0 010 45.26 31.97 31.97 0 01-45.26 0z"></path>
-  </svg>
-);
-
 const CloseButton = styled.button`
   all: unset;
 `;
 
 export const CloseBtn = ({ handleClick, ...props }) => {
   return (
-    <CloseButton onClick={handleClick}>
+    <CloseButton type="button" onClick={handleClick}>
       <SvgContainer {...props}>{closeSvg}</SvgContainer>
     </CloseButton>
   );
