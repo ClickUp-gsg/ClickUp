@@ -43,7 +43,7 @@ export default function AddTaskMenuBody({
             For
           </T.P>
           <T.ToolTip bottom="50px" text="Assign">
-            <img src={A.userGroupIcon} alt="" />
+            <img src={A.user} alt="" />
           </T.ToolTip>
         </T.Flex>
       </T.Flex>
