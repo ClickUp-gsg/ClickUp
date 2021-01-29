@@ -4,52 +4,78 @@ import { emailIcon, passwordIcon, userIcon } from "../../assets";
 
 import Input from "../SignTxtField";
 import { auth } from "../../firebase";
+import checkValidation from "../useCheckValidation";
+import handleError from "../useHandleError";
 import useForm from "../useForm";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import { useStateValue } from "../StateProvider";
 
-async function signUp(e, name, email, password, history) {
-  e.preventDefault();
-  try {
-    const res = await auth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-    history.push("/");
-    await res.user.updateProfile({ displayName: name });
-    console.log(
-      "successfully SignUp : ",
-      res.user.displayName,
-      res.user
-    );
-  } catch (e) {
-    console.log(e);
+export default function SignForm({ type, setIsLoading }) {
+  const history = useHistory();
+  const [, dispatch] = useStateValue();
+  const [errors, setErrors] = useState({});
+  async function signUp(e, name, email, password) {
+    try {
+      e.preventDefault();
+      checkValidation({ name, email, password });
+      dispatch({
+        type: "CLEAR_USER",
+      });
+      setIsLoading(true);
+      const res = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      dispatch({
+        type: "EDIT_USER",
+        payload: { name },
+      });
+      setTimeout(() => {
+        history.push("/");
+      }, 500);
+      await res.user.updateProfile({ displayName: name });
+    } catch (e) {
+      setTimeout(() => setIsLoading(false), 500);
+      let inputsErrors = handleError(e, [
+        "name",
+        "email",
+        "password",
+      ]);
+      setErrors(inputsErrors);
+    }
   }
-}
 
-async function signIn(e, email, password, history) {
-  e.preventDefault();
-  try {
-    const res = await auth.signInWithEmailAndPassword(
-      email,
-      password
-    );
-    history.push("/");
-    console.log("Successfully SignIn: ", res.user.displayName, res);
-  } catch (e) {
-    console.log(e);
+  async function signIn(e, email, password) {
+    e.preventDefault();
+    try {
+      checkValidation({ email, password });
+      dispatch({
+        type: "CLEAR_USER",
+      });
+      setIsLoading(true);
+      const res = await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+      dispatch({
+        type: "EDIT_USER",
+        payload: { name: res.user.displayName },
+      });
+      setTimeout(() => {
+        history.push("/");
+      }, 500);
+    } catch (e) {
+      setTimeout(() => setIsLoading(false), 500);
+      let inputsErrors = handleError(e, [
+        "user",
+        "email",
+        "password",
+      ]);
+      setErrors(inputsErrors);
+    }
   }
-}
 
-// async function signWithGoogle() {
-//   try {
-//     const res = await auth.signInWithPopup(provider);
-//     console.log(res);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
-
-export default function SignForm({ type }) {
   const initState =
     type === "SignUp"
       ? {
@@ -59,19 +85,13 @@ export default function SignForm({ type }) {
         }
       : { email: "", password: "" };
   const [inputs, handleChange] = useForm(initState);
-  const history = useHistory();
+
   return (
     <form
       onSubmit={(e) =>
         type === "SignUp"
-          ? signUp(
-              e,
-              inputs.name,
-              inputs.email,
-              inputs.password,
-              history
-            )
-          : signIn(e, inputs.email, inputs.password, history)
+          ? signUp(e, inputs.name, inputs.email, inputs.password)
+          : signIn(e, inputs.email, inputs.password)
       }
     >
       {type === "SignUp" && (
@@ -79,7 +99,9 @@ export default function SignForm({ type }) {
           headerTxt="Full Name"
           icon={userIcon}
           placeholder="John Doe"
-          errorTxt="This field is required!"
+          errorTxt={errors.name}
+          hasError={errors.name}
+          deleteError={() => setErrors({ ...errors, name: "" })}
           value={inputs.name}
           handleChange={handleChange}
           type="text"
@@ -92,8 +114,11 @@ export default function SignForm({ type }) {
         placeholder={
           type === "SignUp" ? "example@site.com" : "Enter your email"
         }
-        errorTxt="This field is required!"
-        // hasError={true}
+        errorTxt={errors.email || errors.user}
+        hasError={errors.email || errors.user}
+        deleteError={() =>
+          setErrors({ ...errors, email: "", user: "" })
+        }
         value={inputs.email}
         handleChange={handleChange}
         type="email"
@@ -103,13 +128,11 @@ export default function SignForm({ type }) {
         headerTxt={type === "SignUp" ? "Choose Password" : "Password"}
         type="password"
         name="password"
-        linkTxt={type === "SignUp" ? "Show" : "Forget Password?"}
+        linkTxt={"Show"}
         placeholder={type === "SignUp" ? "••••••" : "Enter Password"}
-        errorTxt={
-          type === "SignUp"
-            ? " Password must be 8 characters or longer! "
-            : "Password required!"
-        }
+        errorTxt={errors.password}
+        hasError={errors.password}
+        deleteError={() => setErrors({ ...errors, password: "" })}
         inputPadding="0 20px 0 12px"
         icon={passwordIcon}
         value={inputs.password}

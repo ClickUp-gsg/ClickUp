@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.label`
   margin-top: 25px;
+  display: block;
 `;
 
 export const Input = styled.div`

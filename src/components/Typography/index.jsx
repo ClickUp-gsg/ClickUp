@@ -126,7 +126,6 @@ export const Content = styled.div`
     padding: 0 15px;
   }
 `;
-
 const ToolTipSpan = styled.span`
   display: none;
   opacity: 0;
