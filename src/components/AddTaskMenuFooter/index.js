@@ -2,7 +2,7 @@ import * as A from "../../assets";
 import * as S from "./style";
 import * as T from "../Typography";
 
-export default function AddTaskMenuFooter() {
+export default function AddTaskMenuFooter({ clearInputs }) {
   return (
     <footer>
       <T.Flex margin="85px 20px 0 20px">
@@ -49,6 +49,9 @@ export default function AddTaskMenuFooter() {
         <T.Flex>
           <T.Button
             type="submit"
+            onClick={() => {
+              setTimeout(clearInputs, 0);
+            }}
             width="121px"
             height="40px"
             radius="3px 0 0 3px"

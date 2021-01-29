@@ -25,6 +25,7 @@ export const initState = {
 
 let id = 3;
 
+let newTasks;
 export function reducer(state, action) {
   switch (action.type) {
     case "ADD_TASK":
@@ -32,8 +33,26 @@ export function reducer(state, action) {
         ...state,
         tasks: [...state.tasks, { id: id++, ...action.payload }],
       };
-    case "EDIT_TASKS":
-      return { ...state, tasks: action.payload };
+    case "TOGGLE_TASK_STATUS":
+      newTasks = [...state.tasks];
+      for (let i = 0; i < newTasks.length; i++) {
+        if (newTasks[i].id === action.payload) {
+          newTasks[i] = {
+            ...newTasks[i],
+            isCompleted: !newTasks[i].isCompleted,
+          };
+        }
+      }
+      return { ...state, tasks: newTasks };
+    case "DELETE_TASK":
+      newTasks = [...state.tasks];
+      for (let i = 0; i < newTasks.length; i++) {
+        if (newTasks[i].id === action.payload) {
+          newTasks.splice(i, 1);
+          break;
+        }
+      }
+      return { ...state, tasks: newTasks };
     case "EDIT_USER":
       return { ...state, user: action.payload };
     case "CLEAR_USER":

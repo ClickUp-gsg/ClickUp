@@ -1,4 +1,4 @@
-export { default as userGroupIcon } from "./user-group.png";
+export { default as reopenIcon } from "./reopen";
 
 export const minimizeTaskIcon = (
   <svg viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
