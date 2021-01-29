@@ -40,7 +40,7 @@ export default function ListTask({ id, header, body, status }) {
             <T.Flex>
               <T.ToolTip text="Due Date" bottom="42px">
                 <T.SvgContainer color="#979797" width="32px">
-                  {A.calenderIcon}
+                  {A.calenderWithoutCircle}
                 </T.SvgContainer>
               </T.ToolTip>
               <T.Span margin="0 6px 0 -2px">
