@@ -5,14 +5,13 @@ import * as T from "../Typography";
 import { useStateValue } from "../StateProvider";
 
 export default function ListTask({ id, header, body, status }) {
-  const [{ tasks }, dispatch] = useStateValue();
-  function toggleTaskStatus() {
-    tasks[id] = {
-      ...tasks[id],
-      isCompleted: !tasks[id].isCompleted,
-    };
-    dispatch({ type: "EDIT_TASKS", payload: tasks });
-  }
+  const [, dispatch] = useStateValue();
+  const toggleTaskStatus = () => {
+    dispatch({ type: "TOGGLE_TASK_STATUS", payload: id });
+  };
+  const deleteTask = () =>
+    dispatch({ type: "DELETE_TASK", payload: id });
+
   return (
     <S.Container>
       <S.Header>{header}</S.Header>
@@ -22,11 +21,7 @@ export default function ListTask({ id, header, body, status }) {
         </T.P>
         <S.DisplayOnHover>
           <T.ToolTip bottom="40px" text="Assign">
-            <T.SvgContainer
-              margin="0 2px 0 0"
-              hover_color=" "
-              width="25px"
-            >
+            <T.SvgContainer margin="0 2px 0 0" width="25px">
               {A.user}
             </T.SvgContainer>
           </T.ToolTip>
@@ -45,7 +40,7 @@ export default function ListTask({ id, header, body, status }) {
             <T.Flex>
               <T.ToolTip text="Due Date" bottom="42px">
                 <T.SvgContainer color="#979797" width="32px">
-                  {A.calenderWithoutCircle}
+                  {A.calenderIcon}
                 </T.SvgContainer>
               </T.ToolTip>
               <T.Span margin="0 6px 0 -2px">
@@ -67,17 +62,25 @@ export default function ListTask({ id, header, body, status }) {
               <T.ToolTip text={status ? "Reopen Task" : "Close task"}>
                 <T.SvgContainer
                   onClick={toggleTaskStatus}
-                  color={status ? "#202020" : "#979797"}
-                  hover_color={status ? "red" : "#67CB48"}
-                  fill={status && "true"}
-                  width={status ? "14px" : "18px"}
+                  color={status ? "#777777" : "#979797"}
+                  hover_color={"#67CB48"}
+                  fill={status ? "true" : ""}
+                  width={status ? "16px" : "18px"}
                 >
-                  {status ? A.crossIcon : A.checkIcon}
+                  {status ? A.reopenIcon : A.checkIcon}
                 </T.SvgContainer>
               </T.ToolTip>
-              <T.Span margin="-2px 10px 0 10px">
-                <T.ToolTip text="Select multiple tasks">
-                  <S.Circle></S.Circle>
+              <T.Span margin="-2px 10px 0 8px">
+                <T.ToolTip text="Delete task">
+                  <T.SvgContainer
+                    onClick={deleteTask}
+                    color={"#202020"}
+                    hover_color={"red"}
+                    fill={"true"}
+                    width={"14px"}
+                  >
+                    {A.crossIcon}
+                  </T.SvgContainer>
                 </T.ToolTip>
               </T.Span>
               <T.ToolTip text="More options">
