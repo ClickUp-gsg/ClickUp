@@ -6,24 +6,19 @@ import { useStateValue } from "../StateProvider";
 
 export default function HomeMain() {
   const [{ tasks }] = useStateValue();
-  let filteredTasks = tasks.reduce((acc, curr, i) => {
-    if (i === 1) {
-      acc = acc.isCompleted
-        ? { completedTasks: [acc], unCompletedTasks: [] }
-        : { completedTasks: [], unCompletedTasks: [acc] };
-    }
-    acc = curr.isCompleted
-      ? { ...acc, completedTasks: [...acc.completedTasks, curr] }
-      : { ...acc, unCompletedTasks: [...acc.unCompletedTasks, curr] };
-    return acc;
+  let nmbCompletedTasks = 0,
+    nmbUnCompletedTasks = 0;
+  tasks.forEach((task) => {
+    task.isCompleted ? nmbCompletedTasks++ : nmbUnCompletedTasks++;
   });
-  let { completedTasks, unCompletedTasks } = filteredTasks;
   return (
     <S.Container>
       <S.ListsContainer>
         <S.List>
-          <Header text="TO DO" nmbOfTasks={unCompletedTasks.length} />
-
+          <Header
+            text="TO DO"
+            nmbOfTasks={nmbUnCompletedTasks || 0}
+          />
           {tasks.map((value) => {
             return (
               !value.isCompleted && (
@@ -41,7 +36,7 @@ export default function HomeMain() {
         <S.List>
           <Header
             text="Complete"
-            nmbOfTasks={completedTasks.length}
+            nmbOfTasks={nmbCompletedTasks || 0}
             topBorderColor="rgb(107, 201, 80)"
           />
           {tasks.map((value) => {
