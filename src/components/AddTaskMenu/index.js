@@ -8,26 +8,32 @@ import { useState } from "react";
 import { useStateValue } from "../StateProvider";
 
 export default function AddTaskMenu() {
-  const [opened, setIsOpened] = useState(true);
+  const [opened, setIsOpened] = useState(false);
   const [title, setTitle] = useState("");
   const [list, setList] = useState("");
   const [desc, setDescription] = useState("");
+  function clearInputs() {
+    setTitle("");
+    setList("");
+    setDescription("");
+  }
   const [, dispatch] = useStateValue();
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e.target);
     if (title && list && desc) {
       const task = { title, desc, list: "list1" };
       dispatch({ type: "ADD_TASK", payload: task });
     }
-    console.log(title, list, desc);
   }
   return (
     <S.Container onSubmit={(e) => handleSubmit(e)} isOpened={opened}>
       {/* Open Task Button */}
       <S.ToggleMenuButton>
         <T.Button
-          onClick={() => setIsOpened(true)}
+          onClick={() => {
+            setIsOpened(true);
+            clearInputs();
+          }}
           type="button"
           shadow="0 3px 10px -3px #7B68EE"
           radius="10px"
@@ -86,7 +92,7 @@ export default function AddTaskMenu() {
             setDesc={setDescription}
           />
         </S.Body>
-        <Footer />
+        <Footer clearInputs={clearInputs} />
       </S.Menu>
     </S.Container>
   );
