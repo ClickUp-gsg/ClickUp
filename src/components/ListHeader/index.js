@@ -23,7 +23,7 @@ export default function ListHeader({
               width="5px"
               margin="-3px 12px 0"
             >
-              {A.user}
+              {A.arrowEmptyMiddle}
             </T.SvgContainer>
           </T.ToolTip>
         </S.ArrowContainer>
