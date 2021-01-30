@@ -1,5 +1,4 @@
 import * as S from "./style";
-import * as T from "../../components/Typography";
 
 import AddTaskMenu from "../../components/AddTaskMenu";
 import HomeAside from "../../components/HomeAside";
