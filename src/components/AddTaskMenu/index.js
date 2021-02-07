@@ -4,6 +4,7 @@ import * as T from "../Typography";
 
 import Body from "../AddTaskMenuBody";
 import Footer from "../AddTaskMenuFooter";
+import { db } from "../../firebase";
 import { useState } from "react";
 import { useStateValue } from "../StateProvider";
 
@@ -17,12 +18,30 @@ export default function AddTaskMenu() {
     setList("");
     setDescription("");
   }
-  const [, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   function handleSubmit(e) {
     e.preventDefault();
     if (title && list && desc) {
-      const task = { title, desc, list: "list1" };
-      dispatch({ type: "ADD_TASK", payload: task });
+      const newTask = { id: 0, title, desc, list };
+      if (user.uid) {
+        db.collection("users")
+          .doc(user.uid)
+          .collection("tasks")
+          .add(newTask)
+          .then(async (docRef) => {
+            console.log(
+              "!! Document successfully added!!!, docRefId: ",
+              docRef.id
+            );
+            await docRef.set({ id: docRef.id }, { merge: true });
+            newTask.id = docRef.id;
+            dispatch({ type: "ADD_TASK", payload: newTask });
+          })
+          .catch((err) => {
+            console.log("error happen while adding the task: ", err);
+          });
+      }
+      clearInputs();
     }
   }
   return (
