@@ -2,22 +2,49 @@ import * as A from "../../assets";
 import * as S from "./style";
 import * as T from "../Typography";
 
+import { db } from "../../firebase";
 import { useStateValue } from "../StateProvider";
 
-export default function ListTask({ id, header, body, status }) {
-  const [, dispatch] = useStateValue();
+export default function ListTask({ id, header, desc, isCompleted }) {
+  const [{ user }, dispatch] = useStateValue();
   const toggleTaskStatus = () => {
     dispatch({ type: "TOGGLE_TASK_STATUS", payload: id });
+    if (user.uid) {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("tasks")
+        .doc(id)
+        .set({ isCompleted: !isCompleted }, { merge: true })
+        .then(() => {
+          console.log("task status successfully updated");
+        })
+        .catch((err) => {
+          console.log("Error in updating task status: ", err);
+        });
+    }
   };
-  const deleteTask = () =>
+
+  const deleteTask = () => {
     dispatch({ type: "DELETE_TASK", payload: id });
+    db.collection("users")
+      .doc(user.uid)
+      .collection("tasks")
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log("Task successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error Deleting Task: ", error);
+      });
+  };
 
   return (
     <S.Container>
       <S.Header>{header}</S.Header>
       <S.Body>
         <T.P color="#555" size="13px" margin="0 5px 3px 0">
-          {body}
+          {desc}
         </T.P>
         <S.DisplayOnHover>
           <T.ToolTip bottom="40px" text="Assign">
@@ -59,15 +86,17 @@ export default function ListTask({ id, header, body, status }) {
               </T.Span>
             </T.Flex>
             <T.Flex>
-              <T.ToolTip text={status ? "Reopen Task" : "Close task"}>
+              <T.ToolTip
+                text={isCompleted ? "Reopen Task" : "Close task"}
+              >
                 <T.SvgContainer
                   onClick={toggleTaskStatus}
-                  color={status ? "#777777" : "#979797"}
+                  color={isCompleted ? "#777777" : "#979797"}
                   hover_color={"#67CB48"}
-                  fill={status ? "true" : ""}
-                  width={status ? "16px" : "18px"}
+                  fill={isCompleted ? "true" : ""}
+                  width={isCompleted ? "16px" : "18px"}
                 >
-                  {status ? A.reopenIcon : A.checkIcon}
+                  {isCompleted ? A.reopenIcon : A.checkIcon}
                 </T.SvgContainer>
               </T.ToolTip>
               <T.Span margin="-2px 10px 0 8px">
