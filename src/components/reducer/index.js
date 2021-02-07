@@ -1,37 +1,7 @@
-// import { db } from "../../firebase";
-
-// tasks: [
-//   {
-//     id: 0,
-//     title: "this is title 1",
-//     desc: "this description 1",
-//     isCompleted: false,
-//   },
-//   {
-//     id: 1,
-//     title: "this is title 2",
-//     desc: "this description 2",
-//     isCompleted: true,
-//   },
-//   {
-//     id: 2,
-//     title: "this is title 3",
-//     desc: "this description 3",
-//     isCompleted: false,
-//   },
-
 export const initState = {
   tasks: [],
   user: {},
 };
-// WHEN FREE DO IT FOR DELETE AND TOGGLE
-// function findTaskById(id, cb) {
-//   for (let i = 0; i < newTasks.length; i++) {
-//     if (newTasks[i].id === id) {
-//       cb();
-//     }
-//   }
-// }
 
 let newTasks;
 export function reducer(state, action) {
