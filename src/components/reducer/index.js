@@ -1,38 +1,24 @@
 export const initState = {
-  tasks: [
-    {
-      id: 0,
-      title: "this is title 1",
-      desc: "this description 1",
-      isCompleted: false,
-    },
-    {
-      id: 1,
-      title: "this is title 2",
-      desc: "this description 2",
-      isCompleted: true,
-    },
-    {
-      id: 2,
-      title: "this is title 3",
-      desc: "this description 3",
-      isCompleted: false,
-    },
-  ],
-  isLoading: false,
+  tasks: [],
   user: {},
 };
-
-let id = 3;
 
 let newTasks;
 export function reducer(state, action) {
   switch (action.type) {
+    case "EDIT_TASKS":
+      return { ...state, tasks: action.payload };
     case "ADD_TASK":
-      return {
+      let newTasksObj = {
         ...state,
-        tasks: [...state.tasks, { id: id++, ...action.payload }],
+        tasks: [
+          ...state.tasks,
+          {
+            ...action.payload,
+          },
+        ],
       };
+      return newTasksObj;
     case "TOGGLE_TASK_STATUS":
       newTasks = [...state.tasks];
       for (let i = 0; i < newTasks.length; i++) {

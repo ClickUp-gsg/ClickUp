@@ -26,3 +26,9 @@ export const List = styled.div`
   width: 250px;
   margin-right: 20px;
 `;
+
+export const LoadSpinner = styled.div`
+  & svg {
+    width: 100px;
+  }
+`;
