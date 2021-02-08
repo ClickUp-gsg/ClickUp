@@ -15,14 +15,12 @@ export default function SignCard({ type = "SignIn", setIsLoading }) {
   const history = useHistory();
   async function signWithGoogle() {
     try {
+      dispatch({ type: "CLEAR_USER" });
       setIsLoading(true);
       const res = await auth.signInWithPopup(provider);
-      const userProfile = res.additionalUserInfo.profile;
-      dispatch("EDIT_USER", {
-        name: userProfile.given_name,
-        profile: userProfile,
-      });
-      console.log("is new user?", res.additionalUserInfo.isNewUser);
+      console.log("result: ", res);
+      dispatch({ type: "EDIT_USER", payload: { ...res.user } });
+      console.log("is new user? ", res.additionalUserInfo.isNewUser);
       setTimeout(() => {
         history.push("/");
       }, 1000);
