@@ -3,77 +3,33 @@ import * as T from "../Typography";
 import { emailIcon, passwordIcon, userIcon } from "../icons";
 
 import Input from "../SignTxtField";
-import { auth } from "../../firebase";
-import checkValidation from "../useCheckValidation";
-import handleError from "../useHandleError";
 import useForm from "../useForm";
-import { useHistory } from "react-router-dom";
+import useSign from "../useSign";
 import { useState } from "react";
-import { useStateValue } from "../StateProvider";
 
 export default function SignForm({ type, setIsLoading }) {
-  const history = useHistory();
-  const [, dispatch] = useStateValue();
   const [errors, setErrors] = useState({});
+  let handleSign = useSign();
   async function signUp(e, name, email, password) {
-    try {
-      e.preventDefault();
-      checkValidation({ name, email, password });
-      dispatch({
-        type: "CLEAR_USER",
-      });
-      setIsLoading(true);
-      const res = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      dispatch({
-        type: "EDIT_USER",
-        payload: { name },
-      });
-      setTimeout(() => {
-        history.push("/");
-      }, 500);
-      await res.user.updateProfile({ displayName: name });
-    } catch (e) {
-      setTimeout(() => setIsLoading(false), 500);
-      let inputsErrors = handleError(e, [
-        "name",
-        "email",
-        "password",
-      ]);
-      setErrors(inputsErrors);
-    }
+    e.preventDefault();
+    let inputs = { name, email, password };
+    let signUpErrors = await handleSign(
+      "signup",
+      inputs,
+      setIsLoading
+    );
+    setErrors(signUpErrors);
   }
 
   async function signIn(e, email, password) {
     e.preventDefault();
-    try {
-      checkValidation({ email, password });
-      dispatch({
-        type: "CLEAR_USER",
-      });
-      setIsLoading(true);
-      const res = await auth.signInWithEmailAndPassword(
-        email,
-        password
-      );
-      dispatch({
-        type: "EDIT_USER",
-        payload: { name: res.user.displayName },
-      });
-      setTimeout(() => {
-        history.push("/");
-      }, 500);
-    } catch (e) {
-      setTimeout(() => setIsLoading(false), 500);
-      let inputsErrors = handleError(e, [
-        "user",
-        "email",
-        "password",
-      ]);
-      setErrors(inputsErrors);
-    }
+    let inputs = { email, password };
+    let signInErrors = await handleSign(
+      "signin",
+      inputs,
+      setIsLoading
+    );
+    setErrors(signInErrors);
   }
 
   const initState =
