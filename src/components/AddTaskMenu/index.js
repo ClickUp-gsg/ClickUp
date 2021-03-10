@@ -29,7 +29,7 @@ export default function AddTaskMenu() {
         title,
         desc,
         list,
-        hasStar: false,
+        hasStar: list === "favorites",
         lists:
           currentList === "home"
             ? [currentList]
