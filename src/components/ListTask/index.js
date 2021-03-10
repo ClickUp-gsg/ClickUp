@@ -5,8 +5,15 @@ import * as T from "../Typography";
 import { db } from "../../firebase";
 import { useStateValue } from "../StateProvider";
 
-export default function ListTask({ id, header, desc, isCompleted }) {
-  const [{ user }, dispatch] = useStateValue();
+export default function ListTask({
+  id,
+  header,
+  desc,
+  isCompleted,
+  hasStar,
+  lists,
+}) {
+  const [{ user, currentList }, dispatch] = useStateValue();
   const toggleTaskStatus = () => {
     dispatch({ type: "TOGGLE_TASK_STATUS", payload: id });
     if (user.uid) {
@@ -39,17 +46,56 @@ export default function ListTask({ id, header, desc, isCompleted }) {
       });
   };
 
+  function toggleStarList(oldTaskLists) {
+    let newTaskLists;
+    const indexOfFavorites = oldTaskLists.indexOf("favorites");
+    if (indexOfFavorites === -1) {
+      newTaskLists = [...oldTaskLists, "favorites"];
+    } else {
+      oldTaskLists.splice(indexOfFavorites, 1);
+      newTaskLists = oldTaskLists;
+    }
+    return newTaskLists;
+  }
+
+  function toggleStar() {
+    const newLists = toggleStarList(lists);
+    dispatch({ type: "TOGGLE_TASK_STAR", payload: { id, newLists } });
+    if (user.uid) {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("tasks")
+        .doc(id)
+        .set({ hasStar: !hasStar, lists: newLists }, { merge: true })
+        .catch((err) => {
+          console.log("Error in updating task hasStar: ", err);
+        });
+    }
+  }
+
   return (
-    <S.Container>
+    <S.Container
+      isCollapsed={lists.some((list) => list === currentList)}
+    >
       <S.Header>{header}</S.Header>
       <S.Body>
         <T.P color="#555" size="13px" margin="0 5px 3px 0">
           {desc}
         </T.P>
         <S.DisplayOnHover>
-          <T.ToolTip bottom="40px" text="Assign">
-            <T.SvgContainer margin="0 2px 0 0" width="25px">
-              {A.user}
+          <T.ToolTip
+            bottom="40px"
+            text={hasStar ? "Remove Star" : "Add Star"}
+          >
+            <T.SvgContainer
+              fill="true"
+              margin="0 2px 0 0"
+              width="25px"
+              noStroke="true"
+              active={hasStar ? "true" : ""}
+              onClick={() => toggleStar()}
+            >
+              {A.star2}
             </T.SvgContainer>
           </T.ToolTip>
         </S.DisplayOnHover>
