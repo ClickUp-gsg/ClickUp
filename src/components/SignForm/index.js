@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function SignForm({ type, setIsLoading }) {
   const [errors, setErrors] = useState({});
   let handleSign = useSign();
+
   async function signUp(e, name, email, password) {
     e.preventDefault();
     let inputs = { name, email, password };
