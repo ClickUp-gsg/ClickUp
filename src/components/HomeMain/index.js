@@ -2,6 +2,7 @@ import * as S from "./style";
 
 import { useEffect, useState } from "react";
 
+import AddTaskMenu from "../../components/AddTaskMenu";
 import Header from "../ListHeader";
 import Task from "../ListTask";
 import { db } from "../../firebase";
@@ -9,39 +10,41 @@ import { loadSpinner } from "../../assets";
 import { useStateValue } from "../StateProvider";
 
 export default function HomeMain() {
-  const [{ tasks, user }, dispatch] = useStateValue();
-  const [isLoadingTasks, setIsLoadingTasks] = useState(user.uid);
+  const [{ tasks, user, currentList }, dispatch] = useStateValue();
+  const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   let nmbCompletedTasks = 0,
-    nmbUnCompletedTasks = 0;
+    nmbToDoTasks = 0;
   tasks.forEach((task) => {
-    task.isCompleted ? nmbCompletedTasks++ : nmbUnCompletedTasks++;
+    if (task.lists.includes(currentList)) {
+      task.isCompleted ? nmbCompletedTasks++ : nmbToDoTasks++;
+    }
   });
   useEffect(() => {
+    setIsLoadingTasks(true);
     if (user.uid) {
-      db.collection("users")
-        .doc(user.uid)
-        .collection("tasks")
-        .get()
-        .then((querySnapshot) => {
+      (async function setTasks() {
+        try {
+          const querySnapshot = await db
+            .collection("users")
+            .doc(user.uid)
+            .collection("tasks")
+            .get();
           let initTasks = querySnapshot.docs.map((doc) => doc.data());
           dispatch({ type: "EDIT_TASKS", payload: initTasks });
           setIsLoadingTasks(false);
-        })
-        .catch((err) => {
-          console.log("Error while get init State: ", err);
+        } catch (err) {
           setIsLoadingTasks(false);
-        });
+          console.log("Error while get init State: ", err);
+        }
+      })();
     }
-  }, [dispatch, user.uid]);
+  }, [dispatch, user, user.uid]);
 
   return (
     <S.Container>
       <S.ListsContainer>
         <S.List>
-          <Header
-            text="TO DO"
-            nmbOfTasks={nmbUnCompletedTasks || 0}
-          />
+          <Header text="TO DO" nmbOfTasks={nmbToDoTasks || 0} />
           {isLoadingTasks ? (
             <S.LoadSpinner>{loadSpinner}</S.LoadSpinner>
           ) : (
@@ -54,6 +57,8 @@ export default function HomeMain() {
                     header={value.title}
                     desc={value.desc}
                     isCompleted={false}
+                    hasStar={value.hasStar}
+                    lists={value.lists}
                   />
                 )
               );
@@ -78,6 +83,8 @@ export default function HomeMain() {
                     header={value.title}
                     desc={value.desc}
                     isCompleted={true}
+                    hasStar={value.hasStar}
+                    lists={value.lists}
                   />
                 )
               );
@@ -85,6 +92,7 @@ export default function HomeMain() {
           )}
         </S.List>
       </S.ListsContainer>
+      <AddTaskMenu />
     </S.Container>
   );
 }

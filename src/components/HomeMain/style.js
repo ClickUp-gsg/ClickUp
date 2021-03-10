@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  height: calc(100vh - 115px);
+export const Container = styled.main`
+  min-height: calc(100vh - 115px);
   background-color: #eeeeee;
   padding: 15px 0 0 15px;
-  overflow: auto;
   & ::-webkit-scrollbar-thumb {
     border-color: #eee;
   }
