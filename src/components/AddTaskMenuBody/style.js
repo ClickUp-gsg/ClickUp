@@ -64,3 +64,38 @@ export const BrowseLink = styled(Link)`
     color: ${(props) => props.theme.primaryDark};
   }
 `;
+export const SelectList = styled.div`
+  select {
+    all: unset;
+    width: 96.5%;
+    margin-top: 8px;
+    padding-bottom: 7.2px;
+    padding-left: 4px;
+    background-color: unset;
+    text-transform: capitalize;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  cursor: pointer;
+  height: 36px;
+  width: 190px;
+  font-weight: 700;
+  margin: 0 8px 0 13px;
+  font-size: 14px;
+  border: 1px solid #e4e4e4;
+  border-radius: 18px;
+  padding: 0 12px;
+  color: ${(props) =>
+    props.is_selected_disabled ? " #939090" : "black"};
+  :hover {
+    background-color: #f7f7f7;
+  }
+  option {
+    font-weight: 700;
+    font-size: 14px;
+  }
+  option:disabled {
+    color: #939090;
+  }
+`;
