@@ -43,11 +43,11 @@ export default function AddTaskMenuBody({
                 is_selected_disabled={list === "0" ? "true" : ""}
                 onChange={(e) => setList(e.target.value)}
               >
-                <S.Option disabled value="">
+                <option disabled value="">
                   choose list
-                </S.Option>
+                </option>
                 {lists.map((list) => (
-                  <S.Option value={list.name}>{list.name}</S.Option>
+                  <option value={list.name}>{list.name}</option>
                 ))}
               </select>
             </S.SelectList>
