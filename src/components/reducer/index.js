@@ -41,18 +41,6 @@ export function reducer(state, action) {
       newTasks = [...state.tasks];
       for (let i = 0; i < newTasks.length; i++) {
         if (newTasks[i].id === action.payload.id) {
-          // let newTaskLists;
-          // let oldTaskLists = [...newTasks[i].lists];
-          // console.log("old lists", oldTaskLists);
-          // const indexOfFavorites = oldTaskLists.indexOf("favorites");
-          // console.log("is has star:", indexOfFavorites);
-          // if (indexOfFavorites === -1) {
-          //   newTaskLists = [...oldTaskLists, "favorites"];
-          // } else {
-          //   oldTaskLists.splice(indexOfFavorites, 1);
-          //   newTaskLists = oldTaskLists;
-          // }
-          // console.log("new lists", newTaskLists);
           newTasks[i] = {
             ...newTasks[i],
             hasStar: !newTasks[i].hasStar,
