@@ -1,3 +1,5 @@
+import * as indexedDB from "../useIndexedDB";
+
 import { auth } from "../../firebase";
 import checkValidation from "../useCheckValidation";
 import handleError from "../useHandleError";
@@ -26,19 +28,20 @@ export default function useSign() {
       dispatch({ type: "EDIT_USER", payload });
       if (type === "signup")
         await res.user.updateProfile({ displayName: inputs.name });
+      const { displayName, uid } = payload;
+      const userName = type === "signup" ? inputs.name : displayName;
+      await indexedDB.setDB("user", { uid, name: userName });
       setTimeout(() => {
+        setIsLoading(false);
         history.push("/");
-      }, 200);
+      }, 400);
       return {};
     } catch (e) {
-      setTimeout(() => setIsLoading(false), 200);
-      let inputsErrors = handleError(e, [
-        "name",
-        "user",
-        "email",
-        "password",
-      ]);
-      return inputsErrors;
+      setTimeout(() => setIsLoading(false), 400);
+      const errors = e.code.includes
+        ? handleError(e, ["name", "user", "email", "password"])
+        : {};
+      return errors;
     }
   };
   return handleSign;
