@@ -10,7 +10,7 @@ export const Container = styled.div`
   width: 250px;
   height: 60px;
   background-color: white;
-  transition: 0.3s height;
+  transition: 0.3s;
   &:hover {
     height: fit-content;
   }
@@ -21,6 +21,16 @@ export const Container = styled.div`
   }
   &:hover p {
     white-space: normal;
+  }
+  ${(props) =>
+    props.isCollapsed ||
+    "height: 0;" +
+      "padding: 0;" +
+      "margin: 0;" +
+      "font-size: 0" +
+      "visibility: hidden;"};
+  & * {
+    ${(props) => (!props.isCollapsed ? "display: none " : "")};
   }
 `;
 

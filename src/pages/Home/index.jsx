@@ -1,11 +1,21 @@
 import * as S from "./style";
+import * as indexedDB from "../../components/useIndexedDB";
 
-import AddTaskMenu from "../../components/AddTaskMenu";
 import HomeAside from "../../components/HomeAside";
 import HomeHeader from "../../components/HomeHeader";
 import HomeMain from "../../components/HomeMain";
+import { useEffect } from "react";
+import { useStateValue } from "../../components/StateProvider";
 
 export default function Home() {
+  const [, dispatch] = useStateValue();
+  useEffect(() => {
+    (async () => {
+      const userDoc = await indexedDB.getDB("user");
+      const payload = userDoc?.payload || {};
+      dispatch({ type: "EDIT_USER", payload });
+    })();
+  }, [dispatch]);
   return (
     <>
       <S.Container>
@@ -14,7 +24,6 @@ export default function Home() {
           <HomeHeader />
           <HomeMain />
         </S.Main>
-        <AddTaskMenu />
       </S.Container>
     </>
   );

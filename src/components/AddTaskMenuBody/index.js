@@ -2,12 +2,15 @@ import * as A from "../../assets";
 import * as S from "./style";
 import * as T from "../Typography";
 
+import { useStateValue } from "../StateProvider";
+
 export default function AddTaskMenuBody({
   list,
   setList,
   desc,
   setDesc,
 }) {
+  const [{ lists }] = useStateValue();
   return (
     <main>
       {/* For the first row of the body */}
@@ -18,7 +21,7 @@ export default function AddTaskMenuBody({
             In
           </T.P>
           <T.ToolTip bottom="50px" text="Choose location">
-            <T.Input
+            {/* <T.Input
               value={list}
               onChange={(e) => setList(e.target.value)}
               cursor="pointer"
@@ -33,7 +36,21 @@ export default function AddTaskMenuBody({
               radius="18px"
               color="black"
               hover_background="#f7f7f7"
-            />
+            /> */}
+            <S.SelectList>
+              <select
+                value={list}
+                is_selected_disabled={list === "0" ? "true" : ""}
+                onChange={(e) => setList(e.target.value)}
+              >
+                <option disabled value="">
+                  choose list
+                </option>
+                {lists.map((list) => (
+                  <option value={list.name}>{list.name}</option>
+                ))}
+              </select>
+            </S.SelectList>
           </T.ToolTip>
           <T.P
             cursor="default"

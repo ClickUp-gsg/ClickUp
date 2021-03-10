@@ -1,6 +1,13 @@
+import { home, star2 } from "../../assets";
+
 export const initState = {
   tasks: [],
   user: {},
+  lists: [
+    { name: "home", icon: home },
+    { name: "favorites", icon: star2 },
+  ],
+  currentList: "home",
 };
 
 let newTasks;
@@ -30,6 +37,18 @@ export function reducer(state, action) {
         }
       }
       return { ...state, tasks: newTasks };
+    case "TOGGLE_TASK_STAR":
+      newTasks = [...state.tasks];
+      for (let i = 0; i < newTasks.length; i++) {
+        if (newTasks[i].id === action.payload.id) {
+          newTasks[i] = {
+            ...newTasks[i],
+            hasStar: !newTasks[i].hasStar,
+            lists: action.payload.newLists,
+          };
+        }
+      }
+      return { ...state, tasks: newTasks };
     case "DELETE_TASK":
       newTasks = [...state.tasks];
       for (let i = 0; i < newTasks.length; i++) {
@@ -39,6 +58,8 @@ export function reducer(state, action) {
         }
       }
       return { ...state, tasks: newTasks };
+    case "EDIT_CURRENT_LIST":
+      return { ...state, currentList: action.payload };
     case "EDIT_USER":
       return { ...state, user: action.payload };
     case "CLEAR_USER":

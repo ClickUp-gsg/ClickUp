@@ -103,6 +103,9 @@ export const Button = styled.button`
       props.type === "light" ? "" : props.theme.primaryDark};
     color: ${(props) => (props.type === "light" ? "" : "white")};
   }
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
 export const Flex = styled.div`
@@ -183,12 +186,14 @@ export const SvgContainer = styled.div`
   width: ${(props) => props.width || "10px"};
   margin: ${(props) => props.margin};
   & * {
-    stroke: ${(props) => props.color || "#b9bec7"};
+    stroke: ${(props) =>
+      props.fill ? "" : props.color || "#b9bec7"};
     stroke: ${(props) => props.active && props.theme.primary};
     fill: ${(props) => props.fill && (props.color || "#b9bec7")};
   }
   &:hover * {
-    stroke: ${(props) => props.hover_color || props.theme.primary};
+    stroke: ${(props) =>
+      props.fill ? "" : props.hover_color || props.theme.primary};
     fill: ${(props) =>
       props.fill && (props.hover_color || props.theme.primary)};
   }
@@ -217,7 +222,17 @@ export const Input = styled.input`
   border-radius: ${(props) => props.radius};
   padding: ${(props) => props.padding};
   color: ${(props) => props.color};
+  background-color: ${(props) => props.background};
   &:hover {
     background-color: ${(props) => props.hover_background};
   }
+`;
+
+export const Visibility = styled.div`
+  visibility: ${(props) =>
+    !props.justOpacity && (props.isVisible ? "visible" : "hidden")};
+  /* visibility: ${(props) =>
+    props.isVisible ? "visible" : "hidden"}; */
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
+  transition: ${(props) => props.transition || ".5s"};
 `;

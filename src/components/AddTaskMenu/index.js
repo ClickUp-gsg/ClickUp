@@ -10,6 +10,7 @@ import { useStateValue } from "../StateProvider";
 
 export default function AddTaskMenu() {
   const [opened, setIsOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [list, setList] = useState("");
   const [desc, setDescription] = useState("");
@@ -18,30 +19,39 @@ export default function AddTaskMenu() {
     setList("");
     setDescription("");
   }
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, currentList }, dispatch] = useStateValue();
   function handleSubmit(e) {
     e.preventDefault();
+    const id = "_" + Date.now();
     if (title && list && desc) {
-      const newTask = { id: 0, title, desc, list };
+      const newTask = {
+        id,
+        title,
+        desc,
+        list,
+        hasStar: list === "favorites",
+        lists:
+          currentList === "home"
+            ? [currentList]
+            : [currentList, "home"],
+      };
       if (user.uid) {
+        setIsLoading(true);
         db.collection("users")
           .doc(user.uid)
           .collection("tasks")
-          .add(newTask)
-          .then(async (docRef) => {
-            console.log(
-              "!! Document successfully added!!!, docRefId: ",
-              docRef.id
-            );
-            await docRef.set({ id: docRef.id }, { merge: true });
-            newTask.id = docRef.id;
+          .doc(id)
+          .set(newTask)
+          .then(() => {
             dispatch({ type: "ADD_TASK", payload: newTask });
+            clearInputs();
+            setIsOpened(false);
+            setIsLoading(false);
           })
           .catch((err) => {
             console.log("error happen while adding the task: ", err);
           });
       }
-      clearInputs();
     }
   }
   return (
@@ -111,7 +121,7 @@ export default function AddTaskMenu() {
             setDesc={setDescription}
           />
         </S.Body>
-        <Footer clearInputs={clearInputs} />
+        <Footer isLoading={isLoading} />
       </S.Menu>
     </S.Container>
   );
