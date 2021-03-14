@@ -12,6 +12,7 @@ export default function ListTask({
   isCompleted,
   hasStar,
   lists,
+  isPinned,
 }) {
   const [{ user, currentList }, dispatch] = useStateValue();
   const toggleTaskStatus = () => {
@@ -73,23 +74,42 @@ export default function ListTask({
     }
   }
 
+  function togglePin() {
+    dispatch({ type: "TOGGLE_TASK_PIN", payload: id });
+  }
+
   return (
     <S.Container
-      isCollapsed={lists.some((list) => list === currentList)}
+      isVisible={lists.some((list) => list === currentList)}
+      isPinned={isPinned}
     >
-      <S.Header>{header}</S.Header>
+      <S.Header>
+        <T.Flex>
+          {header}
+          <S.DisplayOnHover isPinned={isPinned}>
+            <T.SvgContainer
+              color={isPinned ? "black" : "#454545"}
+              hover_color="black"
+              width="15px"
+              rotate={isPinned ? "-45deg" : ""}
+              onClick={togglePin}
+            >
+              {A.pin}
+            </T.SvgContainer>
+          </S.DisplayOnHover>
+        </T.Flex>
+      </S.Header>
       <S.Body>
         <T.P color="#555" size="13px" margin="0 5px 3px 0">
           {desc}
         </T.P>
-        <S.DisplayOnHover>
+        <S.DisplayOnHover isPinned={isPinned}>
           <T.ToolTip
             bottom="40px"
             text={hasStar ? "Remove Star" : "Add Star"}
           >
             <T.SvgContainer
               fill="true"
-              margin="0 2px 0 0"
               width="25px"
               noStroke="true"
               active={hasStar ? "true" : ""}
@@ -100,14 +120,14 @@ export default function ListTask({
           </T.ToolTip>
         </S.DisplayOnHover>
       </S.Body>
-      <S.DisplayOnHover>
+      <S.DisplayOnHover isPinned={isPinned}>
         <S.SubtaskContainer>
           <T.ToolTip text="Create Subtask">
             <T.SvgContainer width="12px">{A.subtask}</T.SvgContainer>
           </T.ToolTip>
         </S.SubtaskContainer>
       </S.DisplayOnHover>
-      <S.DisplayOnHover>
+      <S.DisplayOnHover isPinned={isPinned}>
         <S.Footer>
           <T.Flex justify="space-between">
             <T.Flex>
