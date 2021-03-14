@@ -148,7 +148,7 @@ const ToolTipSpan = styled.span`
     content: "";
     position: absolute;
     left: calc(50% - 5px);
-    top: 28px;
+    top: 27px;
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -185,6 +185,7 @@ export const SvgContainer = styled.div`
   transform: ${(props) => props.rotate && `rotate(${props.rotate})`};
   width: ${(props) => props.width || "10px"};
   margin: ${(props) => props.margin};
+  transition: ${(props) => props.transition};
   & * {
     stroke: ${(props) =>
       props.fill ? "" : props.color || "#b9bec7"};
