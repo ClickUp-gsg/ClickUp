@@ -9,8 +9,9 @@ export const Container = styled.form`
   max-height: 510px;
   max-width: 580px;
   transition: 0.2s width, 0.4s height;
-  width: ${(props) => props.isOpened || "0px"};
-  height: ${(props) => props.isOpened || "0px"};
+  z-index: 9999;
+  width: ${(props) => (props.isOpened ? "" : "0px")};
+  height: ${(props) => (props.isOpened ? " " : "0px")};
 `;
 
 export const Menu = styled.div`
