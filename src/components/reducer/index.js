@@ -1,12 +1,22 @@
 import { home, star2 } from "../../assets";
 
+const defaultLists = [
+  { name: "home", icon: home },
+  { name: "favorites", icon: star2 },
+];
 export const initState = {
-  tasks: [],
-  user: {},
-  lists: [
-    { name: "home", icon: home },
-    { name: "favorites", icon: star2 },
+  tasks: [
+    // {
+    //   id: 1,
+    //   title: "header",
+    //   desc: "description",
+    //   isCompleted: false,
+    //   hasStar: true,
+    //   lists: ["home", "favorites"],
+    // },
   ],
+  user: {},
+  lists: [...defaultLists],
   currentList: "home",
 };
 
@@ -49,6 +59,17 @@ export function reducer(state, action) {
         }
       }
       return { ...state, tasks: newTasks };
+    case "TOGGLE_TASK_PIN":
+      newTasks = [...state.tasks];
+      for (let i = 0; i < newTasks.length; i++) {
+        if (newTasks[i].id === action.payload) {
+          newTasks[i] = {
+            ...newTasks[i],
+            isPinned: !newTasks[i].isPinned,
+          };
+        }
+      }
+      return { ...state, tasks: newTasks };
     case "DELETE_TASK":
       newTasks = [...state.tasks];
       for (let i = 0; i < newTasks.length; i++) {
@@ -63,7 +84,7 @@ export function reducer(state, action) {
     case "EDIT_USER":
       return { ...state, user: action.payload };
     case "CLEAR_USER":
-      return { ...state, user: {} };
+      return { ...state, user: {}, lists: defaultLists, tasks: [] };
     default:
       console.log("Nothing match the type of action");
   }
