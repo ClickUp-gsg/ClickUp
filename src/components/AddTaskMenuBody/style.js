@@ -86,14 +86,13 @@ export const SelectList = styled.div`
   border: 1px solid #e4e4e4;
   border-radius: 18px;
   padding: 0 12px;
-  color: ${(props) =>
-    props.is_selected_disabled ? " #939090" : "black"};
+  color: "#585858";
   :hover {
     background-color: #f7f7f7;
   }
   option {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13.5px;
   }
   option:disabled {
     color: #939090;
