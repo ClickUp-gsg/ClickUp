@@ -1,5 +1,6 @@
 import * as S from "./style";
 import * as T from "../Typography";
+import * as indexedDB from "../useIndexedDB";
 
 import { auth, provider } from "../../firebase";
 
@@ -18,13 +19,16 @@ export default function SignCard({ type = "SignIn", setIsLoading }) {
       dispatch({ type: "CLEAR_USER" });
       setIsLoading(true);
       const res = await auth.signInWithPopup(provider);
-      console.log("result: ", res);
       dispatch({ type: "EDIT_USER", payload: { ...res.user } });
-      console.log("is new user? ", res.additionalUserInfo.isNewUser);
+      const { uid, displayName, photoURL } = res.user;
+      await indexedDB.setDB("user", {
+        uid,
+        name: displayName,
+        photoURL,
+      });
       setTimeout(() => {
         history.push("/");
-      }, 1000);
-      console.log(res);
+      }, 200);
     } catch (e) {
       setIsLoading(false);
       console.log(e);
