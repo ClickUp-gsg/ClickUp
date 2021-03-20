@@ -30,3 +30,14 @@ export async function setDB(dbName, payload) {
     }); // set new db
   }
 }
+
+export async function clearDB(dbName) {
+  try {
+    const db = getPouchDB(dbName);
+    const document = await getDB(dbName);
+    document && db.remove(document);
+  } catch (e) {
+    console.log(e);
+    console.log(e.response);
+  }
+}
