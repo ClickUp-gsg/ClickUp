@@ -13,6 +13,7 @@ export const P = styled.p`
   color: ${(props) => props.color};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
+  transition: 0.5s;
   opacity: ${(props) => props.opacity};
   text-align: ${(props) => props.align};
   @media only screen and (max-width: ${(props) =>
@@ -224,6 +225,9 @@ export const Input = styled.input`
   padding: ${(props) => props.padding};
   color: ${(props) => props.color};
   background-color: ${(props) => props.background};
+  &:disabled {
+    background-color: white;
+  }
   &:hover {
     background-color: ${(props) => props.hover_background};
   }
