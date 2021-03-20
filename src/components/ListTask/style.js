@@ -8,14 +8,14 @@ export const Container = styled.div`
   padding: 7px 10px 2px;
   margin-bottom: 12px;
   width: 250px;
-  height: 60px;
   background-color: white;
   transition: 0.3s;
+  height: ${(props) => (props.isPinned ? "fit-content" : "60px")};
   &:hover {
     height: fit-content;
   }
   & p {
-    white-space: nowrap;
+    white-space: ${(props) => (props.isPinned ? "normal" : "nowrap")};
     text-overflow: ellipsis;
     overflow: hidden;
   }
@@ -23,14 +23,15 @@ export const Container = styled.div`
     white-space: normal;
   }
   ${(props) =>
-    props.isCollapsed ||
-    "height: 0;" +
-      "padding: 0;" +
-      "margin: 0;" +
-      "font-size: 0" +
-      "visibility: hidden;"};
+    props.isVisible
+      ? ""
+      : "height: 0;" +
+        "padding: 0;" +
+        "margin: 0;" +
+        "font-size: 0" +
+        "visibility: hidden;"};
   & * {
-    ${(props) => (!props.isCollapsed ? "display: none " : "")};
+    ${(props) => (!props.isVisible ? "display: none " : "")};
   }
 `;
 
@@ -59,9 +60,12 @@ export const Footer = styled.footer`
 `;
 
 export const DisplayOnHover = styled.div`
-  display: none;
+  display: ${(props) => (props.isPinned ? "block" : "none")};
   ${Container}:hover & {
     display: block;
+  }
+  & div {
+    transition: 0.3s;
   }
 `;
 

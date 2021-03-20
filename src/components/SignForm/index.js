@@ -5,10 +5,14 @@ import { emailIcon, passwordIcon, userIcon } from "../../assets";
 import Input from "../SignTxtField";
 import useForm from "../useForm";
 import useSign from "../useSign";
-import { useState } from "react";
+import { useStateValue } from "../StateProvider";
 
 export default function SignForm({ type, setIsLoading }) {
-  const [errors, setErrors] = useState({});
+  const [{ signErrors: errors }, dispatch] = useStateValue();
+  const setErrors = (errors) => {
+    dispatch({ type: "SET_SIGN_ERRORS", payload: errors });
+  };
+
   let handleSign = useSign();
 
   async function signUp(e, name, email, password) {

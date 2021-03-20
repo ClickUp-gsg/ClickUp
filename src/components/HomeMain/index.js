@@ -15,13 +15,13 @@ export default function HomeMain() {
   let nmbCompletedTasks = 0,
     nmbToDoTasks = 0;
   tasks.forEach((task) => {
-    if (task.lists.includes(currentList)) {
+    if (task?.lists?.includes?.(currentList)) {
       task.isCompleted ? nmbCompletedTasks++ : nmbToDoTasks++;
     }
   });
   useEffect(() => {
-    setIsLoadingTasks(true);
     if (user.uid) {
+      setIsLoadingTasks(true);
       (async function setTasks() {
         try {
           const querySnapshot = await db
@@ -59,6 +59,7 @@ export default function HomeMain() {
                     isCompleted={false}
                     hasStar={value.hasStar}
                     lists={value.lists}
+                    isPinned={value.isPinned}
                   />
                 )
               );
@@ -85,6 +86,7 @@ export default function HomeMain() {
                     isCompleted={true}
                     hasStar={value.hasStar}
                     lists={value.lists}
+                    isPinned={value.isPinned}
                   />
                 )
               );

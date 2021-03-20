@@ -13,6 +13,7 @@ export const P = styled.p`
   color: ${(props) => props.color};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
+  transition: 0.5s;
   opacity: ${(props) => props.opacity};
   text-align: ${(props) => props.align};
   @media only screen and (max-width: ${(props) =>
@@ -148,7 +149,7 @@ const ToolTipSpan = styled.span`
     content: "";
     position: absolute;
     left: calc(50% - 5px);
-    top: 28px;
+    top: 27px;
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -185,6 +186,7 @@ export const SvgContainer = styled.div`
   transform: ${(props) => props.rotate && `rotate(${props.rotate})`};
   width: ${(props) => props.width || "10px"};
   margin: ${(props) => props.margin};
+  transition: ${(props) => props.transition};
   & * {
     stroke: ${(props) =>
       props.fill ? "" : props.color || "#b9bec7"};
@@ -223,6 +225,9 @@ export const Input = styled.input`
   padding: ${(props) => props.padding};
   color: ${(props) => props.color};
   background-color: ${(props) => props.background};
+  &:disabled {
+    background-color: white;
+  }
   &:hover {
     background-color: ${(props) => props.hover_background};
   }

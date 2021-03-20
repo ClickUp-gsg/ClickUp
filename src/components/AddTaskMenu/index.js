@@ -19,7 +19,7 @@ export default function AddTaskMenu() {
     setList("");
     setDescription("");
   }
-  const [{ user, currentList }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   function handleSubmit(e) {
     e.preventDefault();
     const id = "_" + Date.now();
@@ -30,10 +30,8 @@ export default function AddTaskMenu() {
         desc,
         list,
         hasStar: list === "favorites",
-        lists:
-          currentList === "home"
-            ? [currentList]
-            : [currentList, "home"],
+        lists: list === "home" ? [list] : [list, "home"],
+        isPinned: false,
       };
       if (user.uid) {
         setIsLoading(true);
