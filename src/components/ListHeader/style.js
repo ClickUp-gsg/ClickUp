@@ -6,11 +6,13 @@ export const ArrowContainer = styled.div`
 `;
 
 export const Container = styled.header`
+  position: sticky;
+  top: -15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 6px 7px 13px 2px rgb(0 0 0 / 20%);
   width: 100%;
   border-top: 2px solid rgb(211, 211, 211);
   border-top-color: ${(props) => props.topBorderColor};
@@ -18,6 +20,7 @@ export const Container = styled.header`
   margin-bottom: 16px;
   padding: 12px 20px 12px 10px;
   color: #292d34;
+  z-index: 9;
   &:hover ${ArrowContainer} {
     visibility: visible;
   }
