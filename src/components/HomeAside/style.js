@@ -4,13 +4,13 @@ import * as T from "../Typography";
 import styled from "styled-components";
 
 export const Container = styled.aside`
+  height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   width: ${(props) => (props.isCollapsed ? "50px" : "300px")};
-  transition: 0.5s;
-
+  transition: 0.5s width;
   border-right: 1px solid #e9ebf0;
 `;
 
@@ -106,7 +106,7 @@ export const SearchBox = ({
             width="100%"
             onFocus={() => setIsListCollapsed(false)}
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => setSearchValue(e)}
           ></T.Input>
         </T.Visibility>
       </SearchBoxContainer>
@@ -115,16 +115,20 @@ export const SearchBox = ({
 };
 
 export const Footer = styled.footer`
-  position: fixed;
-  width: 300px;
-  bottom: 20px;
+  position: absolute;
   display: flex;
-  padding: 0 15px 0 10px;
+  width: 100%;
+  height: 60px;
+  bottom: 0px;
+  border-top: 1px solid #eeeeee;
+  z-index: 99;
+  padding: 10px 10px 15px 15px;
 `;
 
 export const LogoutBtn = styled.button`
   outline: 0;
-  padding: 5px 15px;
+  transition: 0.5s;
+  padding: ${(props) => (props.isDisplayed ? "5px 15px" : "0")};
   cursor: pointer;
   visibility: ${(props) =>
     props.isCollapsed ? "hidden" : "visible"};
