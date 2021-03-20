@@ -28,7 +28,7 @@ export default function useSign() {
       dispatch({ type: "EDIT_USER", payload });
       if (type === "signup")
         await res.user.updateProfile({ displayName: inputs.name });
-      const { displayName, uid } = payload;
+      const { uid, displayName } = payload;
       const userName = type === "signup" ? inputs.name : displayName;
       await indexedDB.setDB("user", { uid, name: userName });
       setTimeout(() => {
@@ -38,9 +38,12 @@ export default function useSign() {
       return {};
     } catch (e) {
       setTimeout(() => setIsLoading(false), 400);
-      const errors = e.code.includes
-        ? handleError(e, ["name", "user", "email", "password"])
-        : {};
+      const errors = handleError(e, [
+        "name",
+        "user",
+        "email",
+        "password",
+      ]);
       return errors;
     }
   };
