@@ -140,7 +140,7 @@ export default function AsideList({
               padding="0 0px 0 13px"
               placeholder="List Name"
               radius="20px 0 0 20px"
-              disabled={isLoadingAddList ? "true" : ""}
+              disabled={isLoadingAddList && true}
             />
             <T.Button
               padding="0 10px"
