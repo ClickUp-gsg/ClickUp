@@ -1,16 +1,20 @@
 import * as S from "./style";
 import * as T from "../../components/Typography";
 
+import { useEffect, useState } from "react";
+
 import Card from "../../components/SignCard";
 import Footer from "../../components/SignFooter";
 import Header from "../../components/SignHeader";
 import LoadingPopUp from "../../components/LoadingPopUp";
-import { useState } from "react";
 import { useStateValue } from "../../components/StateProvider";
 
 export default function Sign({ type }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+  useEffect(() => {
+    dispatch({ type: "CLEAR_SIGN_ERRORS" });
+  }, [dispatch]);
   return (
     <>
       <S.Container>
