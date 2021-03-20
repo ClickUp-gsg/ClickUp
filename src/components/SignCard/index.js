@@ -6,6 +6,7 @@ import { auth, provider } from "../../firebase";
 
 import SignForm from "../SignForm";
 import { ThemeContext } from "styled-components";
+import handleError from "../useHandleError";
 import { helpIcon } from "../../assets";
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -31,7 +32,8 @@ export default function SignCard({ type = "SignIn", setIsLoading }) {
       }, 200);
     } catch (e) {
       setIsLoading(false);
-      console.log(e);
+      const errors = handleError(e);
+      dispatch({ type: "SET_SIGN_ERRORS", payload: errors });
     }
   }
   const themeContext = useContext(ThemeContext);
