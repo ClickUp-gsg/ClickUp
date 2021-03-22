@@ -21,7 +21,7 @@ export const Icon = styled.i`
   fill: #7c828d;
   display: inline-block;
   margin-right: 10px;
-  min-width: 18px;
+  width: 18px;
   font-style: normal;
   font-size: 16px;
 `;
