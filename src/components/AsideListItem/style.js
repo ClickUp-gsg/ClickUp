@@ -18,9 +18,10 @@ export const ItemContainer = styled.button`
 `;
 
 export const Icon = styled.i`
-  fill: #7c828d;
   display: inline-block;
+  fill: #7c828d;
   margin-right: 10px;
+  flex-shrink: 0;
   width: 18px;
   font-style: normal;
   font-size: 16px;
