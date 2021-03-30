@@ -12,6 +12,9 @@ export const Container = styled.form`
   z-index: 9999;
   width: ${(props) => (props.isOpened ? "" : "0px")};
   height: ${(props) => (props.isOpened ? " " : "0px")};
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const Menu = styled.div`
