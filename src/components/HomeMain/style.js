@@ -5,6 +5,10 @@ export const Container = styled.main`
   max-height: 75vh;
   background-color: #eeeeee;
   padding: 0 0 15px 15px;
+  @media only screen and (max-width: 600px) {
+    padding: 0;
+    min-height: calc(100vh - 45px);
+  }
   &::-webkit-scrollbar-thumb {
     border-color: #eee;
   }
@@ -19,10 +23,17 @@ export const Container = styled.main`
 `;
 
 export const ListsContainer = styled.div`
+  position: relative;
   display: flex;
+  z-index: 0;
   overflow: auto;
   height: calc(100vh - 120px);
   padding-top: 15px;
+  @media only screen and (max-width: 600px) {
+    display: block;
+    padding-right: 5px;
+    height: calc(100vh - 45px);
+  }
   &::-webkit-scrollbar-thumb {
     border-color: #eee;
   }
@@ -44,6 +55,9 @@ export const ListsContainer = styled.div`
 export const List = styled.div`
   width: 250px;
   margin-right: 20px;
+  @media only screen and (max-width: 600px) {
+    margin: 0 auto;
+  }
 `;
 
 export const LoadSpinner = styled.div`
