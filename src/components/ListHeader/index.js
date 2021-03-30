@@ -10,7 +10,9 @@ export default function ListHeader({
   return (
     <S.Container topBorderColor={topBorderColor}>
       <T.Flex>
-        <T.P size="13px">{text}</T.P>
+        <T.P size="13px" wrap="nowrap">
+          {text}
+        </T.P>
         <S.NmbOfTasksInList>{nmbOfTasks}</S.NmbOfTasksInList>
       </T.Flex>
       <T.Flex margin="2px 0 0">

@@ -16,6 +16,7 @@ export const P = styled.p`
   transition: 0.5s;
   opacity: ${(props) => props.opacity};
   text-align: ${(props) => props.align};
+  white-space: ${(props) => props.wrap};
   @media only screen and (max-width: ${(props) =>
       props.theme.mobileWidth}) {
     display: ${(props) => props.hideOnMobile && "none"};
@@ -239,5 +240,6 @@ export const Visibility = styled.div`
   /* visibility: ${(props) =>
     props.isVisible ? "visible" : "hidden"}; */
   opacity: ${(props) => (props.isVisible ? "1" : "0")};
+  width: ${(props) => (props.isVisible ? "100%" : "0")};
   transition: ${(props) => props.transition || ".5s"};
 `;
