@@ -12,6 +12,12 @@ export const Container = styled.aside`
   width: ${(props) => (props.isCollapsed ? "50px" : "300px")};
   transition: 0.5s width;
   border-right: 1px solid #e9ebf0;
+  background-color: white;
+  @media only screen and (max-width: 855px) {
+    position: absolute;
+    z-index: 99999;
+    width: ${(props) => (props.isCollapsed ? "" : "100%")};
+  }
 `;
 
 export const LogoSection = styled.section`
